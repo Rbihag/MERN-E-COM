@@ -10,6 +10,7 @@ const productRouter = require("./routes/productRoute");
 const categoryRouter = require("./routes/prodcategoryRoute");
 const brandRouter = require("./routes/brandRoute");
 const colorRouter = require("./routes/colorRoute");
+const enqRouter = require("./routes/enqRoute");
 const couponRouter = require("./routes/couponRoute");
 const uploadRouter = require("./routes/uploadRoute");
 const cookieParser = require("cookie-parser");
@@ -32,6 +33,7 @@ app.use("/api/brand", brandRouter);
 // http://localhost:5000/api/coupon
 app.use("/api/coupon", couponRouter);
 app.use("/api/color", colorRouter);
+app.use("/api/enquiry", enqRouter);
 app.use("/api/upload", uploadRouter);
 
 
