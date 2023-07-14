@@ -6,37 +6,49 @@ cloudinary.config({
     api_secret: process.env.SECRET_KEY,
 });
 
-const cloudinaryUploadImg = async (fileToUploads) => {
-    return new Promise((resolve) => {
-        cloudinary.uploader.upload(fileToUploads, (result) => {
-            resolve(
-                {
-                    url: result.secure_url,
-                    asset_id: result.asset_id,
-                    public_id: result.public_id,
-                },
-                {
-                    resource_type: "auto",
+const cloudinaryUploadImg = async (fileToUpload) => {
+    return new Promise((resolve, reject) => {
+        cloudinary.uploader.upload(
+            fileToUpload,
+            {
+                resource_type: "auto",
+            },
+            (error, result) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve({
+                        url: result.secure_url,
+                        asset_id: result.asset_id,
+                        public_id: result.public_id,
+                    });
                 }
-            );
-        });
+            }
+        );
     });
 };
+
 const cloudinaryDeleteImg = async (fileToDelete) => {
-    return new Promise((resolve) => {
-        cloudinary.uploader.destroy(fileToDelete, (result) => {
-            resolve(
-                {
-                    url: result.secure_url,
-                    asset_id: result.asset_id,
-                    public_id: result.public_id,
-                },
-                {
-                    resource_type: "auto",
+    return new Promise((resolve, reject) => {
+        cloudinary.uploader.destroy(
+            fileToDelete,
+            {
+                resource_type: "auto",
+            },
+            (error, result) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve({
+                        url: result.secure_url,
+                        asset_id: result.asset_id,
+                        public_id: result.public_id,
+                    });
                 }
-            );
-        });
+            }
+        );
     });
 };
+
 
 module.exports = { cloudinaryUploadImg, cloudinaryDeleteImg };
