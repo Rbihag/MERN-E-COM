@@ -22,7 +22,7 @@ router.put("/wishlist", authMiddleware, addToWishlist);
 router.put("/rating", authMiddleware, rating);
 router.put("/:id", authMiddleware, isAdmin, updateProduct);
 router.delete("/:id", authMiddleware, isAdmin, deleteProduct);
-router.get("/", authMiddleware, isAdmin, getAllProduct);
+router.get("/", authMiddleware, getAllProduct); //isAdmin is removed
 router.get("/", authMiddleware, isActive);
 router.patch("/isArchive/:id", authMiddleware, isAdmin, isArchive);
 router.patch("/activateProduct/:id", authMiddleware, isAdmin, activateProduct);
