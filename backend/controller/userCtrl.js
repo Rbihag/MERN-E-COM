@@ -383,48 +383,20 @@ const getWishlist = asyncHandler(async (req, res) => {
 
 // cart functionality
 const userCart = asyncHandler(async (req, res) => {
-    const { cart } = req.body;
+    const { productId, color, quantity, price } = req.body;
     const { _id } = req.user;
 
     try {
-        const user = await User.findById(_id);
-
-        // check if user already has a cart
-        const alreadyExistCart = await Cart.findOne({ orderby: user._id });
-        if (alreadyExistCart) {
-            await Cart.deleteOne({ _id: alreadyExistCart._id });
-        }
 
 
-        // Check if cart exists and has items
-        if (Array.isArray(cart) && cart.length > 0) {
-            let products = [];
-
-            for (let i = 0; i < cart.length; i++) {
-                let object = {};
-                object.product = cart[i]._id;
-                object.count = cart[i].count;
-                object.color = cart[i].color;
-                let getPrice = await Product.findById(cart[i]._id).select("price").exec();
-                object.price = getPrice.price;
-                products.push(object);
-            }
-            // total price of the cart
-            let cartTotal = 0;
-            for (let i = 0; i < products.length; i++) {
-                cartTotal = cartTotal + products[i].price * products[i].count;
-            }
-
-            let newCart = await new Cart({
-                products,
-                cartTotal,
-                orderby: user?._id,
-            }).save();
-
-            res.json(newCart);
-        } else {
-            res.status(400).json({ error: 'Cart is empty or not provided' });
-        }
+        let newCart = await new Cart({
+            userId: _id,
+            productId,
+            color,
+            price,
+            quantity
+        }).save();
+        res.json(newCart);
     } catch (error) {
         throw new Error(error);
     }
